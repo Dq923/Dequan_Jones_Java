@@ -25,6 +25,10 @@ public class Customer {
         this.name = name;
     }
 
+    Customer(){
+        this.id = 0;
+        this.name = "";
+    }
     Customer(int ident, String name, int charge, String date){
         this.id = ident;
         this.name = name;
