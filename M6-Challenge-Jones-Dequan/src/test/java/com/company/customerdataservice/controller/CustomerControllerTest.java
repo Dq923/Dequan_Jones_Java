@@ -28,8 +28,12 @@ public class CustomerControllerTest {
 
     Customer customer = new Customer();
 
+    @Autowired
+    CustomerRepository repo;
+
     @BeforeEach
     void setUp(){
+        repo.deleteAll();/*
         customer.setFirstName("Johnny");
         customer.setLastName("Test");
         customer.setEmail("JohnnyTest@gmail.com");
@@ -41,10 +45,12 @@ public class CustomerControllerTest {
         customer.setState("California");
         customer.setCountry("United States");
         customer.setPostalCode("12345");
+        repo.save(customer);
+        */
     }
 
     @Test
-    public void shouldAddAnAuthorOnPostRequest() throws Exception{
+    public void shouldAddACustomerOnPostRequest() throws Exception{
         // Arrange
 
         String inputJson = mapper.writeValueAsString(customer);
@@ -61,14 +67,14 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void shouldReturnAllAuthors() throws Exception{
+    public void shouldReturnAllCustomers() throws Exception{
         mockMVC.perform(get("/customers"))
                         .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void shouldUpdateAnAuthorRecord() throws Exception {
+    public void shouldUpdateACustomerRecord() throws Exception {
 
         // convert to Json
         String inputJson = mapper.writeValueAsString(customer);
@@ -83,9 +89,22 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void shouldDeleteAnAuthorById() throws Exception{
+    public void shouldDeleteACustomerById() throws Exception{
 
-        mockMVC.perform(delete("/customers/0")) // couldn't figure out the error for this one
+        customer.setFirstName("Johnny");
+        customer.setLastName("Test");
+        customer.setEmail("JohnnyTest@gmail.com");
+        customer.setCompany("Cartoon Network");
+        customer.setPhoneNumber("123-456-7890");
+        customer.setAddress1("12345 Main Street");
+        customer.setAddress2("N/A");
+        customer.setCity("Porkbelly");
+        customer.setState("California");
+        customer.setCountry("United States");
+        customer.setPostalCode("12345");
+        repo.save(customer);
+
+        mockMVC.perform(delete("/customers/")) // couldn't figure out the error for this one
                 .andDo(print())
                 .andExpect(status().isNoContent());
     }
@@ -105,7 +124,7 @@ public class CustomerControllerTest {
         customer2.setCountry("United States");
         customer2.setPostalCode("01234");
 
-        
+
 
     }
 
