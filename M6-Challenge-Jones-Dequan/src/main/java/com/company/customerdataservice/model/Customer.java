@@ -7,13 +7,13 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@JsonIgnoreProperties()
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name="customer")
 public class Customer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private int id;
 
     private String firstName;
     private String lastName;
@@ -27,11 +27,11 @@ public class Customer implements Serializable {
     private String postalCode;
     private String country;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
