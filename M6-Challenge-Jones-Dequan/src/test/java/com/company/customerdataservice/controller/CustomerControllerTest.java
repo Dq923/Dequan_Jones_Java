@@ -178,7 +178,7 @@ public class CustomerControllerTest {
         customer2.setId(2);
 
         // Act, Assert
-        mockMVC.perform(get("/customers/CA/CA"))
+        mockMVC.perform(get("/customers/state/ca"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
