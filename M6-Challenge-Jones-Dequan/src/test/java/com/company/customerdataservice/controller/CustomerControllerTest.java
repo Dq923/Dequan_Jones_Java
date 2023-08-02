@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -26,14 +27,21 @@ public class CustomerControllerTest {
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    Customer customer = new Customer();
 
-    @Autowired
+    @MockBean
     CustomerRepository repo;
 
     @BeforeEach
     void setUp(){
         repo.deleteAll();/*
+
+        */
+    }
+
+    @Test
+    public void shouldAddACustomerOnPostRequest() throws Exception{
+        // Arrange
+        Customer customer = new Customer();
         customer.setFirstName("Johnny");
         customer.setLastName("Test");
         customer.setEmail("JohnnyTest@gmail.com");
@@ -42,16 +50,10 @@ public class CustomerControllerTest {
         customer.setAddress1("12345 Main Street");
         customer.setAddress2("N/A");
         customer.setCity("Porkbelly");
-        customer.setState("California");
+        customer.setState("CA");
         customer.setCountry("United States");
         customer.setPostalCode("12345");
-        repo.save(customer);
-        */
-    }
-
-    @Test
-    public void shouldAddACustomerOnPostRequest() throws Exception{
-        // Arrange
+        customer.setId(1);
 
         String inputJson = mapper.writeValueAsString(customer);
 
@@ -68,13 +70,44 @@ public class CustomerControllerTest {
 
     @Test
     public void shouldReturnAllCustomers() throws Exception{
-        mockMVC.perform(get("/customers"))
+        // arrange
+        Customer customer = new Customer();
+        customer.setFirstName("Johnny");
+        customer.setLastName("Test");
+        customer.setEmail("JohnnyTest@gmail.com");
+        customer.setCompany("Cartoon Network");
+        customer.setPhoneNumber("123-456-7890");
+        customer.setAddress1("12345 Main Street");
+        customer.setAddress2("N/A");
+        customer.setCity("Porkbelly");
+        customer.setState("CA");
+        customer.setCountry("United States");
+        customer.setPostalCode("12345");
+        customer.setId(1);
+
+        repo.save(customer); // save customer
+
+        mockMVC.perform(get("/customers")) // act, assert
                         .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
     public void shouldUpdateACustomerRecord() throws Exception {
+        // arrange
+        Customer customer = new Customer();
+        customer.setFirstName("Johnny");
+        customer.setLastName("Test");
+        customer.setEmail("JohnnyTest@gmail.com");
+        customer.setCompany("Cartoon Network");
+        customer.setPhoneNumber("123-456-7890");
+        customer.setAddress1("12345 Main Street");
+        customer.setAddress2("N/A");
+        customer.setCity("Porkbelly");
+        customer.setState("CA");
+        customer.setCountry("United States");
+        customer.setPostalCode("12345");
+        customer.setId(1);
 
         // convert to Json
         String inputJson = mapper.writeValueAsString(customer);
@@ -90,7 +123,8 @@ public class CustomerControllerTest {
 
     @Test
     public void shouldDeleteACustomerById() throws Exception{
-
+        // arrange
+        Customer customer = new Customer();
         customer.setFirstName("Johnny");
         customer.setLastName("Test");
         customer.setEmail("JohnnyTest@gmail.com");
@@ -99,18 +133,36 @@ public class CustomerControllerTest {
         customer.setAddress1("12345 Main Street");
         customer.setAddress2("N/A");
         customer.setCity("Porkbelly");
-        customer.setState("California");
+        customer.setState("CA");
         customer.setCountry("United States");
         customer.setPostalCode("12345");
-        repo.save(customer);
+        customer.setId(1);
 
-        mockMVC.perform(delete("/customers/")) // couldn't figure out the error for this one
+        repo.save(customer); // save customer
+
+        mockMVC.perform(delete("/customers/1"))
                 .andDo(print())
                 .andExpect(status().isNoContent());
     }
 
     @Test
     public void shouldReturnCustomersByState() throws Exception{
+        // customer1
+        Customer customer = new Customer();
+        customer.setFirstName("Johnny");
+        customer.setLastName("Test");
+        customer.setEmail("JohnnyTest@gmail.com");
+        customer.setCompany("Cartoon Network");
+        customer.setPhoneNumber("123-456-7890");
+        customer.setAddress1("12345 Main Street");
+        customer.setAddress2("N/A");
+        customer.setCity("Porkbelly");
+        customer.setState("CA");
+        customer.setCountry("United States");
+        customer.setPostalCode("12345");
+        customer.setId(1);
+
+        // customer2
         Customer customer2 = new Customer();
         customer2.setFirstName("Mike");
         customer2.setLastName("Williams");
@@ -120,10 +172,15 @@ public class CustomerControllerTest {
         customer2.setAddress1("12345 Not Main Street");
         customer2.setAddress2("N/A");
         customer2.setCity("San Jose");
-        customer2.setState("California");
+        customer2.setState("CA");
         customer2.setCountry("United States");
         customer2.setPostalCode("01234");
+        customer2.setId(2);
 
+        // Act, Assert
+        mockMVC.perform(get("/customers/CA/CA"))
+                .andDo(print())
+                .andExpect(status().isOk());
 
 
     }

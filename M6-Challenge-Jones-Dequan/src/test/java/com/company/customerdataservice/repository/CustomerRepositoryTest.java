@@ -34,7 +34,7 @@ public class CustomerRepositoryTest {
         customer.setAddress1("12345 Main Street");
         customer.setAddress2("N/A");
         customer.setCity("Porkbelly");
-        customer.setState("California");
+        customer.setState("CA");
         customer.setCountry("United States");
         customer.setPostalCode("12345");
 
@@ -61,7 +61,7 @@ public class CustomerRepositoryTest {
         customer.setAddress1("12345 Main Street");
         customer.setAddress2("N/A");
         customer.setCity("Porkbelly");
-        customer.setState("California");
+        customer.setState("CA");
         customer.setCountry("United States");
         customer.setPostalCode("12345");
 
@@ -92,7 +92,7 @@ public class CustomerRepositoryTest {
         customer.setAddress1("12345 Main Street");
         customer.setAddress2("N/A");
         customer.setCity("Porkbelly");
-        customer.setState("California");
+        customer.setState("CA");
         customer.setCountry("United States");
         customer.setPostalCode("12345");
 
@@ -123,7 +123,7 @@ public class CustomerRepositoryTest {
         customer.setAddress1("12345 Main Street");
         customer.setAddress2("N/A");
         customer.setCity("Porkbelly");
-        customer.setState("California");
+        customer.setState("CA");
         customer.setCountry("United States");
         customer.setPostalCode("12345");
 
@@ -147,7 +147,7 @@ public class CustomerRepositoryTest {
         customer.setAddress1("12345 Main Street");
         customer.setAddress2("N/A");
         customer.setCity("Porkbelly");
-        customer.setState("California");
+        customer.setState("CA");
         customer.setCountry("United States");
         customer.setPostalCode("12345");
 
@@ -162,14 +162,14 @@ public class CustomerRepositoryTest {
         customer2.setAddress1("12345 Coruscant BLVD");
         customer2.setAddress2("N/A");
         customer2.setCity("San Jose");
-        customer2.setState("California");
+        customer2.setState("CA");
         customer2.setCountry("United States");
         customer2.setPostalCode("01234");
 
         customer2 = repo.save(customer2);
 
         // Act
-        List<Customer> customerList = repo.findAllByState("California");
+        List<Customer> customerList = repo.findAllByState("Ca");
 
         // Assert
         assertEquals(customerList.size(), 2);
